@@ -2,21 +2,27 @@ import express, { json } from "express";
 import noteRoutes from "./routes/notesRoutes.js";
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
+import rateLimiter from "./middleware/rateLimiter.js";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-connectDB();
-
 //miidddle ware
-app.use(express.json());
+app.use(express.json()); //parese json values
+app.use(rateLimiter);
+
+// app.use((req, res, next) => {
+//   console.log(`request method is ${req.method} req url is ${req.url}`);
+//   next();
+// });
 
 app.use("/api/notes", noteRoutes);
-
-app.listen(5001, () => {
-  console.log("server started in port :", PORT);
+connectDB().then(() => {
+  app.listen(5001, () => {
+    console.log("server started in port :", PORT);
+  });
 });
 
 //schizophrenia

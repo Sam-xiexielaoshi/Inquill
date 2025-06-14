@@ -1,7 +1,7 @@
 import Note from "../models/Note.js";
 
 //get all notes
-export async function getAllNotes(req, res) {
+export async function getAllNotes(_, res) {
   try {
     const notes = await Note.find().sort({ createdAt: -1 }); //latest ones first
     res.status(200).json(notes);
