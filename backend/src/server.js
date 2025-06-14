@@ -1,4 +1,4 @@
-import express from "express";
+import express, { json } from "express";
 import noteRoutes from "./routes/notesRoutes.js";
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
@@ -6,14 +6,17 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT||5001
+const PORT = process.env.PORT || 5001;
 
 connectDB();
+
+//miidddle ware
+app.use(express.json());
 
 app.use("/api/notes", noteRoutes);
 
 app.listen(5001, () => {
-  console.log("server started in port :",PORT);
+  console.log("server started in port :", PORT);
 });
 
 //schizophrenia
