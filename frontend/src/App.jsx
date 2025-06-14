@@ -7,7 +7,6 @@ import DetailPage from "./pages/DetailPage";
 const App = () => {
   return (
     <div data-theme="retro">
-      <button className="btn btn-outline">click me</button>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/create" element={<CreatePage />} />
