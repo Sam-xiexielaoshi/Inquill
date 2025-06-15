@@ -19,7 +19,7 @@ const Navbar = () => {
               className="btn btn-primary rounded-full px-4 py-2 flex items-center gap-2 hover:opacity-90 transition-all"
             >
               <PlusIcon className="h-5 w-5" />
-              <span className="font-medium">New Note</span>
+              <span className="font-medium">Note</span>
             </Link>
           </div>
         </div>
