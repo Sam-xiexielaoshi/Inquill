@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { ArrowLeftIcon } from "lucide-react";
-import axios from "axios";
 import { toast } from "react-hot-toast";
+import instance from "../lib/axios";
 // This component allows users to create a new note with a title and content.
 // It includes form validation to ensure that both fields are filled out before submission.
 const CreatePage = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  // This function handles the form submission for creating a new note.
+  // It checks if the title and content are valid, then sends a POST request to the
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim() || !content.trim()) {
@@ -23,11 +26,22 @@ const CreatePage = () => {
     }
     setLoading(true);
     try {
-      await axios.post("http://localhost:3000/api/notes", { title, content });
+      await instance.post("/notes", {
+        title,
+        content,
+      });
       toast.success("Note created successfully");
-      Navigate
+      navigate("/");
     } catch (error) {
-console.log(error)
+      console.log("Error creating note", error);
+      if (error.response.status === 429) {
+        toast.error("Slow down!, NGL you creating too fast.", {
+          duration: 4000,
+          icon: "🚨",
+        });
+      }
+    } finally {
+      setLoading(false);
     }
   };
   return (
