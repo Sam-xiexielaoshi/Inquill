@@ -1,4 +1,4 @@
-import { GhostIcon, ZapIcon } from "lucide-react";
+import { GhostIcon } from "lucide-react";
 import React from "react";
 
 const RateLimitedUI = () => {
@@ -15,7 +15,7 @@ const RateLimitedUI = () => {
               You've made too many requests in a short period. Please wait.
             </p>
             <p className="text-sm text-base-content/70">
-              Try again in a few moments. 
+              Try again in a few moments.
             </p>
           </div>
         </div>

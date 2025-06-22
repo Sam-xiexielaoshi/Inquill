@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from "react";
 
 const CreatePage = () => {
-  return (
-    <div>CreatePage</div>
-  )
-}
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
+  const handleSubmit = () => {};
+  return <div>CreatePage</div>;
+};
 
-export default CreatePage
+export default CreatePage;
