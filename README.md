@@ -76,7 +76,7 @@ To build and run Inquill from source:
 
 ---
 
-## 🚀 Features
+## Features
 
 - 🧩 **Component-Based** architecture using React
 - 🎨 **Tailwind CSS** for consistent and modern UI
