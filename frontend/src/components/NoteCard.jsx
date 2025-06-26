@@ -138,7 +138,7 @@ const NoteCard = ({ note, setNotes }) => {
       // window.location.reload(); // Reload to reflect changes
     } catch (error) {
       console.log("Error in handleDelete", error);
-      toast.error("Error deleting note:", error);
+      toast.error("Error deleting note:");
     }
   };
 
