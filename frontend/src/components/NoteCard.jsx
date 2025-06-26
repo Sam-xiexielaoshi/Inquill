@@ -2,8 +2,10 @@ import { BadgeMinus, NotebookPen } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "react-router";
 import { formatDate } from "../lib/utils";
+import instance from "../lib/axios";
+import toast from "react-hot-toast";
 
-const NoteCard = ({ note }) => {
+const NoteCard = ({ note, setNotes }) => {
   // State for 3D rotation effect
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
@@ -21,7 +23,7 @@ const NoteCard = ({ note }) => {
 
   const DRAG_THRESHOLD = 5; // Pixels threshold to differentiate between a click and a drag
 
-  // Dragging Handlers 
+  // Dragging Handlers
   const handleMouseDown = (e) => {
     // Prevent default to avoid text selection issues when dragging
     e.preventDefault();
@@ -40,8 +42,10 @@ const NoteCard = ({ note }) => {
       if (!isDragging) return;
 
       // Calculate new position relative to the starting drag point
-      const newX = startCardPos.current.x + (e.clientX - startMousePos.current.x);
-      const newY = startCardPos.current.y + (e.clientY - startMousePos.current.y);
+      const newX =
+        startCardPos.current.x + (e.clientX - startMousePos.current.x);
+      const newY =
+        startCardPos.current.y + (e.clientY - startMousePos.current.y);
 
       setPosition({ x: newX, y: newY });
     },
@@ -52,7 +56,7 @@ const NoteCard = ({ note }) => {
     setIsDragging(false);
   }, []);
 
-  //  Rotation Handlers 
+  //  Rotation Handlers
   const handleRotationMouseMove = (e) => {
     if (isDragging || !cardRef.current) return; // Do not rotate if dragging
 
@@ -102,7 +106,7 @@ const NoteCard = ({ note }) => {
     requestAnimationFrame(animateSpring);
   };
 
-  //  Effect for global mouse events during dragging 
+  //  Effect for global mouse events during dragging
   useEffect(() => {
     if (isDragging) {
       window.addEventListener("mousemove", handleDragMouseMove);
@@ -120,6 +124,24 @@ const NoteCard = ({ note }) => {
     };
   }, [isDragging, handleDragMouseMove, handleMouseUp]);
 
+  const handleDelete = async (e, id) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!window.confirm("Are you sure you want to delete this note?")) return;
+
+    try {
+      await instance.delete(`/notes/${id}`);
+      setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id)); 
+      toast.success("Note deleted successfully");
+      // Optionally, you can trigger a re-fetch of notes or update state here
+      // window.location.reload(); // Reload to reflect changes
+    } catch (error) {
+      console.log("Error in handleDelete", error);
+      toast.error("Error deleting note:", error);
+    }
+  };
+
   return (
     <div
       ref={cardRef} // Attach ref to the outermost div
@@ -132,8 +154,10 @@ const NoteCard = ({ note }) => {
         // Apply dragging transform directly to the outer div
         transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
         // Set width/height while dragging to prevent layout shifts
-        width: isDragging && cardRef.current ? cardRef.current.offsetWidth : "auto",
-        height: isDragging && cardRef.current ? cardRef.current.offsetHeight : "auto",
+        width:
+          isDragging && cardRef.current ? cardRef.current.offsetWidth : "auto",
+        height:
+          isDragging && cardRef.current ? cardRef.current.offsetHeight : "auto",
         // Ensure smooth transition for positioning when dropping, if needed
         transition: isDragging ? "none" : "transform 0.2s ease-out",
       }}
@@ -156,7 +180,7 @@ const NoteCard = ({ note }) => {
           // Calculate the distance moved from the initial click point
           const distanceMoved = Math.sqrt(
             Math.pow(e.clientX - initialClickPos.current.x, 2) +
-            Math.pow(e.clientY - initialClickPos.current.y, 2)
+              Math.pow(e.clientY - initialClickPos.current.y, 2)
           );
 
           // Prevent link navigation if it was a drag (moved beyond threshold)
@@ -191,7 +215,10 @@ const NoteCard = ({ note }) => {
             </span>
             <div className="flex items-center gap-1">
               <NotebookPen className="size-4" />
-              <button className="btn btn-ghost btn-xs text-error">
+              <button
+                className="btn btn-ghost btn-xs text-error"
+                onClick={(e) => handleDelete(e, note._id)}
+              >
                 <BadgeMinus className="size-4" />
               </button>
             </div>
