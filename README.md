@@ -23,8 +23,9 @@ Built with the tools and technologies:
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+- [Features](#features)
 - [Usage](#usage)
-- 
+- [Folder Structure](#folder-structure)
 
 ---
 
@@ -72,6 +73,20 @@ To build and run Inquill from source:
    cd inquill
    npm install
  ```
+
+---
+
+## 🚀 Features
+
+- 🧩 **Component-Based** architecture using React
+- 🎨 **Tailwind CSS** for consistent and modern UI
+- ⚡ **Vite** for lightning-fast development and builds
+- 🔗 **Axios** for communicating with backend APIs
+- 🚥 **Routing** via React Router
+- 📄 Dedicated pages for:
+  - Creating Notes
+  - Viewing Note Details
+  - Viewing All Notes
 
 ---
 
