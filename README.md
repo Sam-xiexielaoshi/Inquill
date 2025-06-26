@@ -68,10 +68,69 @@ To build and run Inquill from source:
 
 2. **Navigate to the project directory Install the dependencies**
    
-   ```bash
+ ```bash
    cd inquill
    npm install
-```
+ ```
+
 ---
 
-##
+## Usage
+To run the project:
+```bash
+npm start
+```
+
+---
+
+## Folder Structure
+
+**Backend**
+```kotlin
+├── src/
+│ ├── config/               # Configuration files
+│ │ ├── db.js               # MongoDB connection setup
+│ │ └── upstash.js          # Upstash Redis configuration for rate limiting
+│ ├── controllers/
+│ │ └── notesControllers.js # Handlers for notes-related logic
+│ ├── middleware/
+│ │ └── rateLimiter.js      # Middleware to apply rate limiting
+│ ├── models/
+│ │ └── Note.js             # Mongoose schema for notes
+│ └── routes/
+│ └── notesRoutes.js        # Routes for note CRUD operations
+├── .env                    # Environment variables
+├── server.js               # Entry point to the backend server
+├── package.json            # Project metadata and dependencies
+└── package-lock.json       # Auto-generated lockfile for dependencie
+```
+
+**Frontend**
+```kotlin
+├── public/
+│ └── quill.png             # Logo/image asset
+├── src/
+│ ├── components/           # Reusable UI components
+│ │ ├── Navbar.jsx
+│ │ ├── NoteCard.jsx
+│ │ ├── NotesNotFound.jsx
+│ │ ├── RateLimitedUI.jsx
+│ │ └── Spinner.jsx
+│ ├── lib/                  # Utility libraries
+│ │ ├── axios.js            # Axios instance for API calls
+│ │ └── utils.js            # Helper utility functions
+│ ├── pages/                # Route-level components (pages)
+│ │ ├── CreatePage.jsx
+│ │ ├── DetailPage.jsx
+│ │ └── HomePage.jsx
+│ ├── App.jsx               # Main app component with routes
+│ ├── index.css             # Tailwind CSS import
+│ └── main.jsx              # React DOM root entry
+├── index.html              # Main HTML template
+├── package.json            # Dependencies and scripts
+├── postcss.config.js       # PostCSS configuration
+├── tailwind.config.js      # Tailwind theme and settings
+├── vite.config.js          # Vite config for dev/prod builds
+├── eslint.config.js        # Linting rules
+└── README.md               # Project documentation
+```
